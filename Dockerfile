@@ -20,27 +20,30 @@ RUN apt-get update && apt-get install -y \
     python3-pip
 
 # Install Go and other dependencies
-RUN wget https://dl.google.com/go/go1.19.9.linux-amd64.tar.gz && \
-    tar -C /usr/local -xzf go1.19.9.linux-amd64.tar.gz && \
-    rm go1.19.9.linux-amd64.tar.gz
+ENV GO_VERSION=1.23.3
+RUN wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz && \
+    tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz && \
+    rm go${GO_VERSION}.linux-amd64.tar.gz
 ENV PATH=$PATH:/usr/local/go/bin
 
-# Clone the Talos repository
+# Clone the Talos repository and Raspberry Pi Linux kernel repository
 WORKDIR /workspace
-RUN git clone --single-branch https://github.com/siderolabs/talos.git
+RUN git clone --single-branch https://github.com/siderolabs/talos.git && \
+    git clone --depth=1 https://github.com/raspberrypi/linux.git && \
+    cd linux && \
+    make bcm2711_defconfig
 
-# Set working directory to Talos kernel build directory
+# Copy kernel config to Talos kernel build directory
+RUN cp /workspace/linux/.config /workspace/talos/pkg/kernel/.config
+
+# Set working directory to Talos
 WORKDIR /workspace/talos
 
-# Install dependencies using Go tools
-RUN go mod download
+# Install Go dependencies
+RUN go mod tidy
 
-# Copy kernel config
-COPY kernel.config /workspace/talos/pkg/kernel/.config
-
-# Build the Talos image
+# Build the Talos image for arm64
 RUN make image-arm64
 
 # Copy the final output to /output
-WORKDIR /workspace/talos/build/talos
-RUN mkdir -p /output && cp *.xz /output/
+RUN mkdir -p /output && cp build/talos/*.xz /output/
