@@ -4,6 +4,7 @@ FROM ubuntu:22.04
 # Install build dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
+    gcc \
     bc \
     bison \
     flex \
@@ -29,9 +30,10 @@ ENV PATH=$PATH:/usr/local/go/bin
 # Clone the Talos repository and Raspberry Pi Linux kernel repository
 WORKDIR /workspace
 RUN git clone --single-branch https://github.com/siderolabs/talos.git && \
-    git clone --depth=1 https://github.com/raspberrypi/linux.git && \
-    cd linux && \
-    make bcm2711_defconfig
+    git clone --depth=1 https://github.com/raspberrypi/linux.git
+
+WORKDIR /workspace/linux
+RUN make bcm2711_defconfig
 
 # Copy kernel config to Talos kernel build directory
 RUN cp /workspace/linux/.config /workspace/talos/pkg/kernel/.config
