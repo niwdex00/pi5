@@ -46,8 +46,13 @@ WORKDIR /workspace/talos
 RUN go mod tidy && \
 	go mod download
 
-# Build the Talos image for arm64
-RUN make image-arm64
+# Install Docker in Docker (DinD)
+RUN curl -fsSL https://get.docker.com | sh && \
+    systemctl start docker
+
+# Build the Talos image for ARM64
+RUN service docker start && make image-arm64
 
 # Copy the final output to /output
 RUN mkdir -p /output && cp build/talos/*.xz /output/
+
