@@ -30,13 +30,15 @@ WORKDIR /workspace
 RUN git clone --single-branch https://github.com/siderolabs/talos.git
 
 # Set working directory to Talos kernel build directory
-WORKDIR /workspace/talos/pkg/kernel
+WORKDIR /workspace/talos
 
-# Copy the kernel.config to the kernel build directory
+# Fetch dependencies
+RUN make setup
+
+# Set kernel config
 COPY kernel.config /workspace/talos/pkg/kernel/.config
 
 # Run the Talos build process to create the kernel and image
-RUN make kernel
 RUN make talos-arm64
 
 # Output the Talos image in the /output directory
