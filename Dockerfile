@@ -28,7 +28,7 @@ ENV PATH=$PATH:/usr/local/go/bin
 
 
 # Stage 2: DIND (Docker-in-Docker)
-FROM docker:27.5.0-rc.1-dind-alpine3.21
+FROM docker:rc-dind
 
 # Copy necessary binaries, libraries, and Go installation from the build stage
 COPY --from=build /usr/local /usr/local
@@ -41,7 +41,10 @@ ENV PATH=$PATH:/usr/local/go/bin
 ENV PATH=$PATH:/usr/bin
 
 # Install git
-RUN apk add git
+RUN apk add git && \
+	git --version && \
+	chmod +x /usr/bin/git
+
 
 # Clone the Talos repository and Raspberry Pi Linux kernel repository
 WORKDIR /workspace
