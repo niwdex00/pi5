@@ -27,7 +27,7 @@ RUN wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz && \
 ENV PATH=$PATH:/usr/local/go/bin
 
 # Stage 2: DIND (Docker-in-Docker)
-FROM docker:27-rc-dind-rootless
+FROM docker:27.5.0-rc.1-dind-alpine3.21
 
 # Copy necessary binaries, libraries, and Go installation from the build stage
 COPY --from=build /usr/local /usr/local
