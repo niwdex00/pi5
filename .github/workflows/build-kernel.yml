@@ -1,0 +1,27 @@
+name: Build Talos Kernel for Raspberry Pi 5
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Build Environment
+      run: sudo apt-get install docker.io
+
+    - name: Build Kernel Image
+      run: |
+        docker build -t talos-rpi-kernel .
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: talos-rpi-image
+        path: /workspace/talos/build/talos/*.xz
