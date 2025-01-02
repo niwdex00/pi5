@@ -33,7 +33,7 @@ RUN git clone --single-branch https://github.com/siderolabs/talos.git && \
     git clone --depth=1 https://github.com/raspberrypi/linux.git
 
 WORKDIR /workspace/linux
-RUN make bcm2711_defconfig
+RUN ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make bcm2711_defconfig
 
 # Copy kernel config to Talos kernel build directory
 RUN cp /workspace/linux/.config /workspace/talos/pkg/kernel/.config
