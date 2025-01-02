@@ -44,6 +44,9 @@ ENV PATH=$PATH:/usr/bin
 RUN apk add git && \
 	ls -l /usr/bin/git
 
+ENV PATH="/usr/bin:$PATH"
+
+
 # Clone the Talos repository and Raspberry Pi Linux kernel repository
 WORKDIR /workspace
 RUN git clone --single-branch https://github.com/siderolabs/talos.git && \
