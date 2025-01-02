@@ -18,7 +18,8 @@ RUN apt-get update && apt-get install -y \
     make \
     crossbuild-essential-arm64 \
     u-boot-tools \
-    docker.io
+    docker.io \
+    curl
 
 # Install Go and other dependencies
 ENV GO_VERSION=1.23.3
