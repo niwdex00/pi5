@@ -30,7 +30,7 @@ ENV PATH=$PATH:/usr/local/go/bin
 FROM docker:rc-dind
 
 # Install git
-RUN apk add --no-cache git
+RUN apk add git
 
 # Copy necessary binaries, libraries, and Go installation from the build stage
 COPY --from=build /usr/local /usr/local
