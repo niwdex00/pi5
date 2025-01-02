@@ -41,7 +41,8 @@ ENV PATH=$PATH:/usr/local/go/bin
 ENV PATH=$PATH:/usr/bin
 
 # Install git
-RUN apk add git
+RUN apk add git && \
+	ls -l /usr/bin/git
 
 # Clone the Talos repository and Raspberry Pi Linux kernel repository
 WORKDIR /workspace
