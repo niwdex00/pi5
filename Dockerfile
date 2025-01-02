@@ -4,7 +4,6 @@ FROM ubuntu:22.04
 # Install build dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
-    gcc \
     bc \
     bison \
     flex \
@@ -13,12 +12,13 @@ RUN apt-get update && apt-get install -y \
     libelf-dev \
     git \
     wget \
+    python3 \
+    python3-pip \
     gcc-aarch64-linux-gnu \
     make \
     crossbuild-essential-arm64 \
     u-boot-tools \
-    python3 \
-    python3-pip
+    docker.io
 
 # Install Go and other dependencies
 ENV GO_VERSION=1.23.3
@@ -35,6 +35,7 @@ RUN git clone --single-branch https://github.com/siderolabs/talos.git && \
 WORKDIR /workspace/linux
 RUN ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make bcm2711_defconfig
 
+
 # Copy kernel config to Talos kernel build directory
 RUN cp /workspace/linux/.config /workspace/talos/pkg/kernel/.config
 
@@ -42,7 +43,8 @@ RUN cp /workspace/linux/.config /workspace/talos/pkg/kernel/.config
 WORKDIR /workspace/talos
 
 # Install Go dependencies
-RUN go mod tidy
+RUN go mod tidy && \
+	go mod download
 
 # Build the Talos image for arm64
 RUN make image-arm64
