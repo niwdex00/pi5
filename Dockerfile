@@ -1,5 +1,4 @@
-# Use a base image with Ubuntu for build environment
-FROM ubuntu:22.04
+FROM ubuntu:22.04 AS build
 
 # Install build dependencies
 RUN apt-get update && apt-get install -y \
@@ -18,14 +17,20 @@ RUN apt-get update && apt-get install -y \
     make \
     crossbuild-essential-arm64 \
     u-boot-tools \
-    docker.io \
-    curl
 
 # Install Go and other dependencies
 ENV GO_VERSION=1.23.3
 RUN wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz && \
     tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz && \
     rm go${GO_VERSION}.linux-amd64.tar.gz
+ENV PATH=$PATH:/usr/local/go/bin
+
+FROM docker:rc-dind
+COPY --from=build /usr/bin /usr/bin
+COPY --from=build /usr/lib /usr/lib
+COPY --from=build /usr/include /usr/include
+COPY --from=build /usr/local /usr/local
+
 ENV PATH=$PATH:/usr/local/go/bin
 
 # Clone the Talos repository and Raspberry Pi Linux kernel repository
@@ -47,13 +52,8 @@ WORKDIR /workspace/talos
 RUN go mod tidy && \
 	go mod download
 
-# Install Docker in Docker (DinD)
-RUN curl -fsSL https://get.docker.com | sh && \
-    systemctl start docker
-
-# Build the Talos image for ARM64
-RUN service docker start && make image-arm64
+# Build the Talos image for arm64
+RUN make image-arm64
 
 # Copy the final output to /output
 RUN mkdir -p /output && cp build/talos/*.xz /output/
-
