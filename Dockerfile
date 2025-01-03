@@ -15,7 +15,6 @@ RUN apt-get update && apt-get install -y \
     gcc-aarch64-linux-gnu \
     crossbuild-essential-arm64 \
     u-boot-tools \
-    gcc-aarch64-linux-gnu \
     binutils-aarch64-linux-gnu \
     wget \
     make
@@ -37,6 +36,9 @@ COPY --from=build /usr/bin /usr/bin
 COPY --from=build /usr/lib /usr/lib
 COPY --from=build /usr/include /usr/include
 
+COPY --from=build /usr/bin/aarch64-linux-gnu-* /usr/bin/
+COPY --from=build /usr/lib/aarch64-linux-gnu/ /usr/lib/aarch64-linux-gnu/
+
 # Set the Go binary path
 ENV PATH=$PATH:/usr/local/go/bin
 
@@ -52,8 +54,6 @@ RUN apk add git && \
     bash \
     binutils \
 	flex \
-	aarch64-linux-gnu-gcc \
-    aarch64-linux-musl-gcc \
     make \
 	bison
 	
