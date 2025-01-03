@@ -38,14 +38,11 @@ COPY --from=build /usr/include /usr/include
 
 # Set the Go binary path
 ENV PATH=$PATH:/usr/local/go/bin
-ENV PATH=$PATH:/usr/bin
 
 # Install git
 RUN apk add git && \
 	ls -l /usr/bin/git && \
-	chmod +x /usr/bin/git && \
-	PATH="/usr/bin:$PATH" && \
-	ldd /usr/bin/git
+	PATH="/usr/bin:$PATH"
 	
 
 # Clone the Talos repository and Raspberry Pi Linux kernel repository
