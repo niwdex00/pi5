@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
     gcc-aarch64-linux-gnu \
     binutils-aarch64-linux-gnu \
     wget \
-    make \
+    make
 
 # Install Go and other dependencies
 ENV GO_VERSION=1.23.3
