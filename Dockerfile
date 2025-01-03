@@ -14,7 +14,6 @@ RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
     gcc-aarch64-linux-gnu \
-    make \
     crossbuild-essential-arm64 \
     u-boot-tools
 
@@ -42,7 +41,7 @@ ENV PATH=$PATH:/usr/local/go/bin
 RUN apk add git && \
 	ls -l /usr/bin/git && \
 	PATH="/usr/bin:$PATH" && \
-	go version
+	apk add make
 	
 
 # Clone the Talos repository and Raspberry Pi Linux kernel repository
