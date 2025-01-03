@@ -15,7 +15,11 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     gcc-aarch64-linux-gnu \
     crossbuild-essential-arm64 \
-    u-boot-tools
+    u-boot-tools \
+    gcc-aarch64-linux-gnu \
+    binutils-aarch64-linux-gnu \
+    wget \
+    make \
 
 # Install Go and other dependencies
 ENV GO_VERSION=1.23.3
