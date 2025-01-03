@@ -41,7 +41,13 @@ ENV PATH=$PATH:/usr/local/go/bin
 RUN apk add git && \
 	ls -l /usr/bin/git && \
 	PATH="/usr/bin:$PATH" && \
-	apk add make
+	apk add make \
+	coreutils \
+    gcc \
+    libc-dev \
+    make \
+    bash \
+    binutils
 	
 
 # Clone the Talos repository and Raspberry Pi Linux kernel repository
