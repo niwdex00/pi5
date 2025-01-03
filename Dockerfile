@@ -6,7 +6,6 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     bc \
     bison \
-    flex \
     libssl-dev \
     libncurses5-dev \
     libelf-dev \
@@ -51,7 +50,8 @@ RUN apk add git && \
     libc-dev \
     make \
     bash \
-    binutils
+    binutils \
+	flex
 	
 
 # Clone the Talos repository and Raspberry Pi Linux kernel repository
