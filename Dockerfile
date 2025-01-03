@@ -17,8 +17,7 @@ RUN apt-get update && apt-get install -y \
     gcc-aarch64-linux-gnu \
     make \
     crossbuild-essential-arm64 \
-    u-boot-tools \
-	file
+    u-boot-tools
 
 # Install Go and other dependencies
 ENV GO_VERSION=1.23.3
@@ -46,7 +45,6 @@ RUN apk add git && \
 	ls -l /usr/bin/git && \
 	chmod +x /usr/bin/git && \
 	PATH="/usr/bin:$PATH" && \
-	file /usr/bin/git && \
 	ldd /usr/bin/git
 	
 
