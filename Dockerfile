@@ -52,6 +52,9 @@ RUN apk add git && \
     bash \
     binutils \
 	flex \
+	aarch64-linux-gnu-gcc \
+    aarch64-linux-musl-gcc \
+    make \
 	bison
 	
 
