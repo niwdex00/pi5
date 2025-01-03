@@ -48,8 +48,8 @@ RUN apk add git && \
 
 # Clone the Talos repository and Raspberry Pi Linux kernel repository
 WORKDIR /workspace
-RUN git clone --single-branch https://github.com/siderolabs/talos.git && \
-    git clone --depth=1 https://github.com/raspberrypi/linux.git
+RUN /usr/bin/git clone --single-branch https://github.com/siderolabs/talos.git && \
+    /usr/bin/git clone --depth=1 https://github.com/raspberrypi/linux.git
 
 # Kernel build step
 WORKDIR /workspace/linux
