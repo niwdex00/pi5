@@ -51,7 +51,8 @@ RUN apk add git && \
     make \
     bash \
     binutils \
-	flex
+	flex \
+	bison
 	
 
 # Clone the Talos repository and Raspberry Pi Linux kernel repository
