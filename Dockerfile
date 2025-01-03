@@ -10,7 +10,6 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libncurses5-dev \
     libelf-dev \
-    git \
     wget \
     python3 \
     python3-pip \
