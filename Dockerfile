@@ -36,8 +36,13 @@ COPY --from=build /usr/bin /usr/bin
 COPY --from=build /usr/lib /usr/lib
 COPY --from=build /usr/include /usr/include
 
-COPY --from=build /usr/bin/aarch64-linux-gnu-* /usr/bin/
-COPY --from=build /usr/lib/aarch64-linux-gnu/ /usr/lib/aarch64-linux-gnu/
+COPY --from=build /usr/bin/aarch64-linux-gnu-gcc /usr/bin/
+COPY --from=build /usr/bin/aarch64-linux-gnu-gcc-ar /usr/bin/
+
+COPY --from=build /usr/share/doc/cpp-aarch64-linux-gnu/ /usr/share/doc/cpp-aarch64-linux-gnu/
+COPY --from=build /usr/share/doc/crossbuild-essential-arm64/ /usr/share/doc/crossbuild-essential-arm64/
+
+COPY --from=build /usr/share/crossbuild-essential-arm64/list /usr/share/crossbuild-essential-arm64/
 
 # Set the Go binary path
 ENV PATH=$PATH:/usr/local/go/bin
